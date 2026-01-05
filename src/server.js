@@ -3,34 +3,33 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const recipeRoutes = require('./routes/recipe.routes');
 const authRoutes = require('./routes/auth.routes');
+const recipeRoutes = require('./routes/recipe.routes');
 
 const app = express();
 
-/* ✅ CORS MUST COME FIRST */
+/* ✅ CORS FIRST */
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json());
+/* ✅ BODY SIZE LIMIT */
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 /* ✅ ROUTES */
 app.use('/api/auth', authRoutes);
 app.use('/api/recipes', recipeRoutes);
 
-/* ✅ TEST ROUTE */
 app.get('/', (req, res) => {
     res.send('Backend + MongoDB connected 🚀');
 });
 
-/* ✅ DB + SERVER */
 const PORT = process.env.PORT || 3000;
 
-mongoose
-    .connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('MongoDB connected successfully');
         app.listen(PORT, () => {
