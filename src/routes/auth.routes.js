@@ -40,7 +40,8 @@ router.post('/login', async (req, res) => {
       message: 'Login successful',
       user: {
         fullname: user.fullname,
-        email: user.email
+        email: user.email,
+        password: user.password,
       }
     });
   } catch (err) {
