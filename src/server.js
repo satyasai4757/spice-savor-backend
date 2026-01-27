@@ -8,9 +8,13 @@ const recipeRoutes = require('./routes/recipe.routes');
 
 const app = express();
 
-/* ✅ CORS FIRST */
+const allowedOrigins = [
+    'http://localhost:4200',
+    'https://satya-spice-savor.netlify.app'
+];
+
 app.use(cors({
-    origin: '*',
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
