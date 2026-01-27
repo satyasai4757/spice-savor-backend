@@ -3,8 +3,11 @@ const Recipe = require('../models/recipe.model');
 // GET all recipes
 exports.getAllRecipes = async (req, res) => {
   try {
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Pragma', 'no-cache');
+
     const recipes = await Recipe.find();
-    res.json(recipes);
+    res.status(200).json(recipes);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
